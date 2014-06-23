@@ -1,0 +1,10 @@
+<div class="wrapper">
+  <h2>All the tweets</h2> 
+  <h3><a href="/tweets/new">Search for tweets</a></h3>
+
+
+  <% @tweets.each do |tweet| %>  
+    <p><a href="/tweets/<%= tweet.id %>"><%= tweet.handle %></a>: 
+    <%= tweet.content %></p>
+  <% end %>
+</div>  

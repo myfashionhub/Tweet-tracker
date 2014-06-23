@@ -1,0 +1,11 @@
+<div class="wrapper">
+  <h2>Enter a user's Twitter handle to fetch tweets:</h2>  
+
+  <form class='search-tweets' action='/tweets/search' method='post'>
+    <%= token_tag %>
+    <input type='text' name='handle' placeholder='Ex: twitter'></input>
+    <input type='submit' value='Fetch'></input>
+  </form>
+
+  <h4><a href="/tweets">Back to home</a></h4>
+</div>
