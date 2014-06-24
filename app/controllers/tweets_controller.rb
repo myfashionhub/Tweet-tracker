@@ -12,7 +12,8 @@ class TweetsController < ApplicationController
 
   def search
     @results = Tweet.get_tweets(params[:handle])
-  end  
+    render :json => @results.to_json
+  end
 
   def create
     @tweet = Tweet.create({handle: params[:handle], content: params[:content], url: params[:url]})
@@ -20,7 +21,7 @@ class TweetsController < ApplicationController
   end
 
   def show
-    @tweet = Tweet.find(params[:id])
+    #@tweet = Tweet.find(params[:id])
   end
 
   def destroy

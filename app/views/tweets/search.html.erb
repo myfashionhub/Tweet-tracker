@@ -2,10 +2,10 @@
 
   <% @results.first do |tweet| %>
     <h2>Recent tweets by <%= tweet[:handle] %></h2>
-  <% end %> 
+  <% end %>
 
   <% @results.each do |tweet| %>
-    <p><%= tweet[:content] %><br/>
+    <p><%= tweet[:content].html_safe %><br/>
     <a href="<%=tweet[:url]%>"><%= tweet[:url] %></a>
     <form action='/tweets' method='post'>
       <%= token_tag %>
@@ -13,6 +13,6 @@
       <input type='hidden' name='content' value="<%= tweet[:content] %>">
       <input type='hidden' name='url' value="<%= tweet[:url] %>">
       <button>Save tweet</button>
-    </form>   
-  <% end %> 
+    </form>
+  <% end %>
 </div>

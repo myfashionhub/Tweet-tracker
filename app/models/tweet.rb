@@ -2,20 +2,21 @@ class Tweet < ActiveRecord::Base
 
   def self.get_tweets(username)
     client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = "P69nzcI8IPsCaBy43EzLft5Hq"
-      config.consumer_secret     = "f21dxHv11ByIyctkrtBsVVUMIcuh2hJwbgzv2VeedbkeZnEGdE"
-    end  
+      config.consumer_key        = ENV['TWITTER_KEY']
+      config.consumer_secret     = ENV['TWITTER_SECRET']
+    end
 
     tweet_array = client.user_timeline(username)
     results = tweet_array.map do |tweet|
       if tweet.urls[0] != nil
-        {handle: username,
-         content: tweet.text, 
-         url: tweet.urls[0].expanded_url.to_s}
-      else 
-        {handle: username,
-         content: tweet.text}
-      end  
+        url = tweet.urls[0].expanded_url.to_s
+      else
+        url = nil
+      end
+      {handle: username,
+       content: tweet.text,
+       link: 'https://twitter.com'+tweet.url.path,
+       url: url}
     end
     return results
   end
