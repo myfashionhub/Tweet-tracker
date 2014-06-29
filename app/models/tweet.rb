@@ -6,7 +6,7 @@ class Tweet < ActiveRecord::Base
       config.consumer_secret     = ENV['TWITTER_SECRET']
     end
 
-    tweet_array = client.user_timeline(username)
+    tweet_array = client.user_timeline(username, {count: 3})
     results = tweet_array.map do |tweet|
       if tweet.urls[0] != nil
         url = tweet.urls[0].expanded_url.to_s
