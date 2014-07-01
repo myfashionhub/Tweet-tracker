@@ -30,10 +30,27 @@ module TweetSearch
     results = tweet_array.map do |tweet|
       {handle: tweet[:user][:screen_name],
        content: tweet[:text],
-       twitter_id: tweet[:id]
+       link: tweet[:id]
       }
     end
     return results
+  end
+
+  def self.hashtag(hashtag)
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['ST_TWITTER_KEY']
+      config.consumer_secret     = ENV['ST_TWITTER_SECRET']
+    end
+
+    tweet_array = client.search("#{hashtag} -rt", lang: 'en').attrs[:statuses]
+    results = tweet_array.map do |tweet|
+      {handle: tweet[:user][:screen_name],
+       content: tweet[:text],
+       link: tweet[:id]
+      }
+    end
+    return results
+    binding.pry
   end
 
   def get_following(username)

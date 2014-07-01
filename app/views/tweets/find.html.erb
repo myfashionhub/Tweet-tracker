@@ -7,12 +7,14 @@
       <a href="https://twitter/<%= tweet[:handle] %>"><%= tweet[:handle] %></a>:
       <%= tweet[:content].html_safe %><br/>
 
-    <form action='/tweets' method='post'>
-      <%= token_tag %>
-      <input type='hidden' name='handle' value="<%= tweet[:handle] %>">
-      <input type='hidden' name='content' value="<%= tweet[:content] %>">
-      <button>Save tweet</button>
-    </form>
+    <%= form_tag "/users/#{@user.id}/tweets", method: :post  do %>
+      <%= hidden_field_tag 'handle', tweet[:handle] %>
+      <%= hidden_field_tag 'content', tweet[:content] %>
+      <%= hidden_field_tag 'url', tweet[:link] %>
+      <%= submit_tag "Save tweet" %>
+    <% end %>
     </p>
   <% end %>
 </div>
+
+

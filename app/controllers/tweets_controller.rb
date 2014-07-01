@@ -1,10 +1,7 @@
 class TweetsController < ApplicationController
   def index
-    @tweets = Tweet.all
-    respond_to do |format|
-      format.json { render :json => @tweets.to_json }
-      format.html
-    end
+    user = current_user
+    @tweets = user.tweets
   end
 
   def new
@@ -22,14 +19,23 @@ class TweetsController < ApplicationController
     @user = current_user
     if params[:handle]
       @results = Tweet.tweets_by_user(params[:handle])
-    else
+    elsif params[:keywords]
       @results = Tweet.tweets_by_keywords(params[:keywords])
+    else
+      @results = Tweet.tweets_by_hashtag(params[:hashtag])
     end
   end
 
   def create
-    @tweet = Tweet.create({handle: params[:handle], content: params[:content], url: params[:url]})
-    redirect_to tweet_path(@tweet)
+    user = current_user
+    binding.pry
+    tweet = Tweet.create({handle: params[:handle], content: params[:content], url: params[:url]})
+    if tweet.save
+      tweet >> user.tweets
+    else
+      Tweet.find_by(url: params[:url]) >> user.tweets
+    end
+    redirect_to user_tweets_path(user)
   end
 
   def show

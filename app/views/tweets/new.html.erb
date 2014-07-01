@@ -14,4 +14,9 @@
     <%= text_field_tag 'keywords', nil, placeholder: 'Search term' %>
     <%= submit_tag "Search by keywords" %>
   <% end %>
+
+  <%= form_tag "/users/#{@user.id}/tweets/find", method: :post do %>
+    <%= text_field_tag 'hashtag', nil, placeholder: 'Hashtag' %>
+    <%= submit_tag "Search by hashtag" %>
+  <% end %>
 </div>

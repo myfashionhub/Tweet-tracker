@@ -1,7 +1,8 @@
-  require "#{Rails.root}/lib/tweet_module.rb"
+require "#{Rails.root}/lib/tweet_module.rb"
 
 class Tweet < ActiveRecord::Base
   has_and_belongs_to_many :users
+  validates :link, uniqueness: true
 
   def self.tweets_by_user(username)
     TweetSearch.username(username)
@@ -9,6 +10,10 @@ class Tweet < ActiveRecord::Base
 
   def self.tweets_by_keywords(keywords)
     TweetSearch.keywords(keywords)
+  end
+
+  def self.tweets_by_hashtag(hashtag)
+    TweetSearch.hashtag(hashtag)
   end
 end
 
