@@ -8,9 +8,11 @@ class TweetsController < ApplicationController
   end
 
   def new
+
   end
 
   def search
+    # Important: portfolio dependency
     @results = Tweet.get_tweets(params[:handle])
     render :json => @results.to_json
   end
@@ -21,7 +23,6 @@ class TweetsController < ApplicationController
   end
 
   def show
-    #@tweet = Tweet.find(params[:id])
   end
 
   def destroy

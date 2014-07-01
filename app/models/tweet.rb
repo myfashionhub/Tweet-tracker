@@ -2,8 +2,8 @@ class Tweet < ActiveRecord::Base
 
   def self.get_tweets(username)
     client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = ENV['TWITTER_KEY']
-      config.consumer_secret     = ENV['TWITTER_SECRET']
+      config.consumer_key        = ENV['ST_TWITTER_KEY']
+      config.consumer_secret     = ENV['ST_TWITTER_SECRET']
     end
 
     tweet_array = client.user_timeline(username, {count: 3})

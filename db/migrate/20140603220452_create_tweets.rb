@@ -4,7 +4,7 @@ class CreateTweets < ActiveRecord::Migration
       t.string :url
       t.string :handle
       t.string :content
-
+      t.string :link
       t.timestamps
     end
   end
