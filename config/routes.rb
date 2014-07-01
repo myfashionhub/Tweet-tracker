@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   # Important: portfolio dependency
-  get '/search/:handle' => 'tweets#search'
+  get '/search/:handle'        => 'tweets#search'
   get '/auth/twitter/callback' => 'sessions#create'
-
+  get '/logout'                => 'sessions#destroy'
   resources :users, only: [:new, :create] do
     resources :tweets, except: [:edit, :update]
     post '/tweets/find' => 'tweets#find'

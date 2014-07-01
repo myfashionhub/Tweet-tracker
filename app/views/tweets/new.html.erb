@@ -1,9 +1,5 @@
 <div class="wrapper">
-  <h4>
-    <a href="users/<%= @user.id %>/tweets">Saved tweets</a>
-  </h4>
-
-  <h2>Search tweets by Twitter handle or keywords</h2>
+  <h2>Choose your search:</h2>
 
   <%= form_tag "/users/#{@user.id}/tweets/find", method: :post do %>
     <%= text_field_tag 'handle', nil, placeholder: 'Twitter handle' %>

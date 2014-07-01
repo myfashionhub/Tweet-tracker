@@ -10,7 +10,7 @@
     <%= form_tag "/users/#{@user.id}/tweets", method: :post  do %>
       <%= hidden_field_tag 'handle', tweet[:handle] %>
       <%= hidden_field_tag 'content', tweet[:content] %>
-      <%= hidden_field_tag 'url', tweet[:link] %>
+      <%= hidden_field_tag 'link', tweet[:link] %>
       <%= submit_tag "Save tweet" %>
     <% end %>
     </p>

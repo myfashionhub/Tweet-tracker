@@ -28,12 +28,11 @@ class TweetsController < ApplicationController
 
   def create
     user = current_user
-    binding.pry
-    tweet = Tweet.create({handle: params[:handle], content: params[:content], url: params[:url]})
+    tweet = Tweet.create({handle: params[:handle], content: params[:content], link: params[:link]})
     if tweet.save
       tweet >> user.tweets
     else
-      Tweet.find_by(url: params[:url]) >> user.tweets
+      Tweet.find_by(link: params[:link]) >> user.tweets
     end
     redirect_to user_tweets_path(user)
   end

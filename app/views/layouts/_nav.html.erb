@@ -1,0 +1,9 @@
+<nav>
+<% if current_user %>
+  <%= link_to 'Log out', '/logout' %> +
+  <%= link_to "Search tweets", new_user_tweet_path(current_user) %> +
+  <%= link_to "Saved tweets", user_tweets_path(current_user) %>
+<% else %>
+  <p>Please sign in with Twitter</p>
+<% end %>
+</nav>

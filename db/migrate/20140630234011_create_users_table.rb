@@ -4,6 +4,7 @@ class CreateUsersTable < ActiveRecord::Migration
       t.string :handle
       t.string :twitter_token
       t.string :twitter_token_secret
+      t.string :image
       t.timestamps
     end
   end
