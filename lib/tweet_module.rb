@@ -1,22 +1,37 @@
-module TweetFetch
-  def self.get_tweets(username)
+module TweetSearch
+  def self.username(username)
     client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = "P69nzcI8IPsCaBy43EzLft5Hq"
-      config.consumer_secret     = "f21dxHv11ByIyctkrtBsVVUMIcuh2hJwbgzv2VeedbkeZnEGdE"
-      config.access_token        = "240042413-nefpXjpUKgdjWtIPbgjaWQRIn3umAz7opll2nbZR"
-      config.access_token_secret = "HS3Xh4vEVSLAWStLZonDBsAjFoRp6USyTMEt0e6RezPqj"   
-    end  
+      config.consumer_key        = ENV['ST_TWITTER_KEY']
+      config.consumer_secret     = ENV['ST_TWITTER_SECRET']
+    end
 
-    tweet_array = client.user_timeline(username)
+    tweet_array = client.user_timeline(username, {count: 5})
     results = tweet_array.map do |tweet|
       if tweet.urls[0] != nil
-        {handle: username,
-         content: tweet.text, 
-         url: tweet.urls[0].expanded_url.to_s}
-      else 
-        {handle: username,
-         content: tweet.text}
-      end  
+        url = tweet.urls[0].expanded_url.to_s
+      else
+        url = nil
+      end
+      {handle: username,
+       content: tweet.text,
+       link: 'https://twitter.com'+tweet.url.path,
+       url: url}
+    end
+    return results
+  end
+
+  def self.keywords(keywords)
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['ST_TWITTER_KEY']
+      config.consumer_secret     = ENV['ST_TWITTER_SECRET']
+    end
+
+    tweet_array = client.search(keywords, lang: 'en').attrs[:statuses]
+    results = tweet_array.map do |tweet|
+      {handle: tweet[:user][:screen_name],
+       content: tweet[:text],
+       twitter_id: tweet[:id]
+      }
     end
     return results
   end
@@ -26,7 +41,7 @@ module TweetFetch
     following.first.screen_name
     following.to_a[index].screen_name
   end
-  
+
 end
 
 
@@ -38,4 +53,3 @@ end
 #tweet.hashtags[index].text
 #link: tweet.urls[index].expanded_url.to_str
 
-end
