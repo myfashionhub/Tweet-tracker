@@ -1,11 +1,17 @@
 <div class="wrapper">
-  <h2>Enter a user's Twitter handle to fetch tweets:</h2>  
+  <h4>
+    <a href="users/<%= @user.id %>/tweets">Saved tweets</a>
+  </h4>
 
-  <form class='search-tweets' action='/tweets/search' method='post'>
-    <%= token_tag %>
-    <input type='text' name='handle' placeholder='Ex: twitter'></input>
-    <input type='submit' value='Fetch'></input>
-  </form>
+  <h2>Search tweets by Twitter handle or keywords</h2>
 
-  <h4><a href="/tweets">Back to home</a></h4>
+  <%= form_tag "/users/#{@user.id}/tweets/find", method: :post do %>
+    <%= text_field_tag 'handle', nil, placeholder: 'Twitter handle' %>
+    <%= submit_tag "Search by handle" %>
+  <% end %>
+
+  <%= form_tag "/users/#{@user.id}/tweets/find", method: :post do %>
+    <%= text_field_tag 'keywords', nil, placeholder: 'Search term' %>
+    <%= submit_tag "Search by keywords" %>
+  <% end %>
 </div>

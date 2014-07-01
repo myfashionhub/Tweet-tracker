@@ -1,18 +1,18 @@
 <div class="wrapper">
 
-  <% @results.first do |tweet| %>
-    <h2>Recent tweets by <%= tweet[:handle] %></h2>
-  <% end %>
+  <h2>Search results:</h2>
 
   <% @results.each do |tweet| %>
-    <p><%= tweet[:content].html_safe %><br/>
-    <a href="<%=tweet[:url]%>"><%= tweet[:url] %></a>
+    <p>
+      <a href="https://twitter/<%= tweet[:handle] %>"><%= tweet[:handle] %></a>:
+      <%= tweet[:content].html_safe %><br/>
+
     <form action='/tweets' method='post'>
       <%= token_tag %>
       <input type='hidden' name='handle' value="<%= tweet[:handle] %>">
       <input type='hidden' name='content' value="<%= tweet[:content] %>">
-      <input type='hidden' name='url' value="<%= tweet[:url] %>">
       <button>Save tweet</button>
     </form>
+    </p>
   <% end %>
 </div>

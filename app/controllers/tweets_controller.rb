@@ -8,13 +8,23 @@ class TweetsController < ApplicationController
   end
 
   def new
-
+    @user = current_user
+    # Search form
   end
 
   def search
     # Important: portfolio dependency
-    @results = Tweet.get_tweets(params[:handle])
+    @results = Tweet.tweets_by_user(params[:handle])
     render :json => @results.to_json
+  end
+
+  def find
+    @user = current_user
+    if params[:handle]
+      @results = Tweet.tweets_by_user(params[:handle])
+    else
+      @results = Tweet.tweets_by_keywords(params[:keywords])
+    end
   end
 
   def create

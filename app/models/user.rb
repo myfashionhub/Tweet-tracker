@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_and_belongs_to_many :users
+
   def self.from_omniauth(data)
     @user = User.find_by(handle: data.info.nickname) || create_with_omniauth(data)
   end

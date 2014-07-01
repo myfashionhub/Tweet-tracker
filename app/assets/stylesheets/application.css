@@ -11,7 +11,7 @@ body {
   font-family: 'Helvetica';
 }
 
-p, span, input[type='text'], 
+p, span, input[type='text'],
 input[type='submit'], button {
   font-size: 16px;
 }
@@ -30,7 +30,7 @@ a:visited, a:hover {
   color: #6666ff;
 }
 
-form.search-tweets {
+form {
   margin: 10px 0;
 }
 

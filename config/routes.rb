@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create] do
     resources :tweets, except: [:edit, :update]
-    post '/tweets/search' => 'tweets#search'
+    post '/tweets/find' => 'tweets#find'
   end
 end
 
