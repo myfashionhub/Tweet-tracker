@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/auth/twitter/callback' => 'sessions#create'
   get '/logout'                => 'sessions#destroy'
 
-  resources :users, only: [:new, :create] do
+  resources :users, only: [:show, :create] do
     resources :tweets, except: [:edit, :update]
     post '/tweets/find' => 'tweets#find'
   end
@@ -21,4 +21,3 @@ end
 #                       DELETE /users/:user_id/tweets/:id(.:format)    tweets#destroy
 #    user_tweets_search POST   /users/:user_id/tweets/search(.:format) tweets#search
 #                 users POST   /users(.:format)                        users#create
-#              new_user GET    /users/new(.:format)                    users#new
