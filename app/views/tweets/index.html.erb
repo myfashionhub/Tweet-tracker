@@ -2,7 +2,13 @@
   <h2>All the tweets</h2>
 
   <% @tweets.each do |tweet| %>
-    <p><a href="/tweets/<%= tweet.id %>"><%= tweet.handle %></a>:
-    <%= tweet.content %></p>
+    <p><a href="http://twitter.com/<%= tweet.handle %>"><%= tweet.handle %></a>:
+    <%= tweet.content.html_safe %><br/>
+
+    <%= form_tag "/users/#{@user.id}/tweets/#{tweet.id}", method: :delete  do %>
+      <%= hidden_field_tag 'id', tweet[:id] %>
+      <%= submit_tag "Delete tweet" %>
+    <% end %>
+  </p>
   <% end %>
 </div>

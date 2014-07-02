@@ -1,7 +1,7 @@
 class TweetsController < ApplicationController
   def index
-    user = current_user
-    @tweets = user.tweets
+    @user = current_user
+    @tweets = @user.tweets
   end
 
   def new
@@ -42,7 +42,9 @@ class TweetsController < ApplicationController
   end
 
   def destroy
-    @tweet = Tweet.delete(params[:id])
-    redirect_to tweets_path
+    user  = User.find(params[:user_id])
+    tweet = Tweet.find(params[:id])
+    user.tweets.delete(tweet)
+    redirect_to user_tweets_path(user)
   end
 end
