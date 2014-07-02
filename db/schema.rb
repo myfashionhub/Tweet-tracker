@@ -25,6 +25,11 @@ ActiveRecord::Schema.define(version: 20140701215412) do
     t.datetime "updated_at"
   end
 
+  create_table "tweets_users", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "tweet_id"
+  end
+
   create_table "users", force: true do |t|
     t.string   "handle"
     t.string   "twitter_token"
@@ -32,11 +37,6 @@ ActiveRecord::Schema.define(version: 20140701215412) do
     t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "users_tweets", id: false, force: true do |t|
-    t.integer "user_id"
-    t.integer "tweet_id"
   end
 
 end

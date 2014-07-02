@@ -30,9 +30,10 @@ class TweetsController < ApplicationController
     user = current_user
     tweet = Tweet.create({handle: params[:handle], content: params[:content], link: params[:link]})
     if tweet.save
-      tweet >> user.tweets
+      user.tweets.push(tweet)
     else
-      Tweet.find_by(link: params[:link]) >> user.tweets
+      tweet = Tweet.find_by(link: params[:link])
+      user.tweets.push(tweet)
     end
     redirect_to user_tweets_path(user)
   end
