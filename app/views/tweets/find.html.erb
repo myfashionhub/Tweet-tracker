@@ -5,7 +5,7 @@
   <% @results.each do |tweet| %>
     <p>
       <a href="https://twitter/<%= tweet[:handle] %>"><%= tweet[:handle] %></a>:
-      <%= tweet[:content].html_safe %><br/>
+      <%= tweet[:content].html_safe %>. [<a href="<%= tweet[:link] %>" target='_blank'>Original</a>]<br/>
 
     <%= form_tag "/users/#{@user.id}/tweets", method: :post  do %>
       <%= hidden_field_tag 'handle', tweet[:handle] %>
