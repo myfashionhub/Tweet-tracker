@@ -50,7 +50,18 @@ module TweetSearch
       }
     end
     return results
-    binding.pry
+  end
+
+  def self.topic(handle, keyword)
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['ST_TWITTER_KEY']
+      config.consumer_secret     = ENV['ST_TWITTER_SECRET']
+    end
+
+    results = client.search("#{keyword} from:#{handle}", result_type: 'popular').take(5).collect do |tweet|
+      "@#{tweet.user.screen_name}: #{tweet.text}"
+    end
+    return results
   end
 
   def get_following(username)

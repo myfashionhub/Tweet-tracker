@@ -15,6 +15,10 @@ class Tweet < ActiveRecord::Base
   def self.tweets_by_hashtag(hashtag)
     TweetSearch.hashtag(hashtag)
   end
+
+  def self.tweets_by_topic(handle, keyword)
+    TweetSearch.topic(handle, keyword)
+  end
 end
 
 
