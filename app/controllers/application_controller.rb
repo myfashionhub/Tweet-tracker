@@ -4,11 +4,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   after_filter :set_access_control_headers
+  after_action :set_access_control_headers
   helper_method :current_user
 
   def set_access_control_headers
     headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Request-Method'] = 'GET, POST'
   end
 
   def current_user
