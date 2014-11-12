@@ -12,6 +12,9 @@ Dependency
   gem 'omniauth-twitter'
 ```
 
+## API
+  Retrieve 5 most recent tweets from an user timeline by making a GET request to `'http://socialtrackr.herokuapp.com/search/' + twitter_handle`
+
 ## Specs
    Omniauth authentication with Twitter.
    Use of Twitter API gem to fetch content.
