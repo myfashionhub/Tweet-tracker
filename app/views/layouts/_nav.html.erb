@@ -1,8 +1,18 @@
 <nav>
 <% if current_user %>
-  <%= link_to 'Log out', '/logout' %> +
-  <%= link_to "Search tweets", new_user_tweet_path(current_user) %> +
-  <%= link_to "Saved tweets", user_tweets_path(current_user) %>
+  <div class="user">
+    <img src="<%= current_user.image %>" />
+    <span><%= current_user.handle %> <i class="fa fa-chevron-down"></i></span>
+    
+    <div class="user-options">
+    <ul>
+      <li><%= link_to 'Log out', '/logout' %></li>
+      <li><%= link_to "Search tweets", new_user_tweet_path(current_user) %></li>
+      <li><%= link_to "Saved tweets", user_tweets_path(current_user) %></li>
+    </ul>  
+    </div>
+  </div>
+
 <% else %>
   <p>Please sign in with Twitter</p>
 <% end %>

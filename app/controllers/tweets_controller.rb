@@ -35,6 +35,8 @@ class TweetsController < ApplicationController
     else
       @results = Tweet.tweets_by_hashtag(params[:hashtag])
     end
+
+    render json: @results.to_json
   end
 
   def create

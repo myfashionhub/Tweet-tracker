@@ -1,8 +1,3 @@
-$(function(){
-  var newFeed = new Feed();
-  newFeed.fetch();
-})
-
 function Tweet(tweetJson){
   this.handle  = tweetJson.handle;
   this.content = tweetJson.content;
