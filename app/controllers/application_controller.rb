@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  after_filter :set_access_control_headers
   after_action :set_access_control_headers
   helper_method :current_user
 

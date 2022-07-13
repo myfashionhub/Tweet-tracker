@@ -29,3 +29,7 @@ Sign up at http://dev.twitter.com for an API key and API secret and put them in 
 
 Or on heroku:
 `heroku config:set ST_TWITTER_KEY ="[API key]" ST_TWITTER_SECRET="[API secret]`
+
+## Development
+- Start app: `$ bundle exec rails s`
+- Create the database: `bin/rails db:create`
