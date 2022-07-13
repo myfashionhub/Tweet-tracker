@@ -1,11 +1,15 @@
 module TweetSearch
-  def self.username(username)
-    client = Twitter::REST::Client.new do |config|
+  NUM_RESULTS = 5
+
+  def self.client
+    @client ||= Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['ST_TWITTER_KEY']
       config.consumer_secret     = ENV['ST_TWITTER_SECRET']
     end
+  end
 
-    tweet_array = client.user_timeline(username, {count: 5})
+  def self.username(username, num_results=NUM_RESULTS)
+    tweet_array = self.client.user_timeline(username, {count: num_results})
     results = tweet_array.map do |tweet|
       if tweet.urls[0] != nil
         url = tweet.urls[0].expanded_url.to_s
@@ -21,12 +25,7 @@ module TweetSearch
   end
 
   def self.keywords(keywords)
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = ENV['ST_TWITTER_KEY']
-      config.consumer_secret     = ENV['ST_TWITTER_SECRET']
-    end
-
-    tweet_array = client.search(keywords, lang: 'en').attrs[:statuses]
+    tweet_array = self.client.search(keywords, lang: 'en').attrs[:statuses]
     results = tweet_array.map do |tweet|
       {handle: tweet[:user][:screen_name],
        content: tweet[:text],
@@ -37,12 +36,7 @@ module TweetSearch
   end
 
   def self.hashtag(hashtag)
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = ENV['ST_TWITTER_KEY']
-      config.consumer_secret     = ENV['ST_TWITTER_SECRET']
-    end
-
-    tweet_array = client.search("#{hashtag} -rt", lang: 'en').attrs[:statuses]
+    tweet_array = self.client.search("#{hashtag} -rt", lang: 'en').attrs[:statuses]
     results = tweet_array.map do |tweet|
       {handle: tweet[:user][:screen_name],
        content: tweet[:text],
@@ -52,15 +46,13 @@ module TweetSearch
     return results
   end
 
-  def self.topic(handle, keyword)
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = ENV['ST_TWITTER_KEY']
-      config.consumer_secret     = ENV['ST_TWITTER_SECRET']
-    end
-
-    results = client.search("#{keyword} from:#{handle}", result_type: 'popular').take(5).collect do |tweet|
-      "@#{tweet.user.screen_name}: #{tweet.text}"
-    end
+  def self.topic(handle, keyword, num_results=NUM_RESULTS)
+    results = self.client
+      .search("#{keyword} from:#{handle}", result_type: 'popular')
+      .take(num_results)
+      .collect do |tweet|
+        "@#{tweet.user.screen_name}: #{tweet.text}"
+      end
     return results
   end
 
