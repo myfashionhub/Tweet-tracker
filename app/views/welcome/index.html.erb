@@ -1,6 +1,9 @@
 <div class="wrapper">
   <h2>Welcome to Tweet Tracker</h2>
 
-  <%= link_to "Sign in with Twitter", '/auth/twitter' %>
+  <form action="/auth/twitter" method="POST">
+    <%= csrf_meta_tags %>
+    <button>Sign in with Twitter</button>
+  </form>
 
 </div>
