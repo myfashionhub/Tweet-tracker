@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+ruby '3.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '7.0.3.1'
 # Use postgresql as the database for Active Record
@@ -40,6 +40,5 @@ end
 gem 'twitter'
 gem 'omniauth'
 gem 'omniauth-twitter'
-gem 'omniauth-rails_csrf_protection'
 
 gem 'font-awesome-sass'
