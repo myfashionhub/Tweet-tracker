@@ -16,10 +16,7 @@ Dependency
   Retrieve 5 most recent tweets from an user timeline by making a GET request to `'http://socialtrackr.herokuapp.com/search/' + twitter_handle`
 
 ## Specs
-   Omniauth authentication with Twitter.
    Use of Twitter API gem to fetch content.
-   Two associated models, User and Tweet, with a many-to-many relationship.
-   Nested resources between the two models `/users/:user_id/tweets/:tweet_id`
 
 ## Installation
 Sign up at http://dev.twitter.com for an API key and API secret and put them in your environment. For example, in `~/.bash_profile`:

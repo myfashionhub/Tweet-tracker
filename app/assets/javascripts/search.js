@@ -2,20 +2,22 @@ function doSearch(e) {
   e.preventDefault();
   var formInput = $("#search input[type='text']").val();
   var userId = $('#search').attr('data-user');
-  console.log()
+
+  let type;
   if (formInput.indexOf('@') > -1) {
-    var term = formInput.replace('@', '');
-    $.ajax({
-      url: '/users/'+userId+'/tweets/find',
-      type: 'POST',
-      dataType: 'json',
-      data: { handle: term }, 
-      success: function(data) {
-        console.log(data)
-      }
-    });
+    type = 'username';
   } else if (formInput.indexOf('#') > -1) {
-      var term = formInput.replace('#', '');
-  } else {  
+    type = 'hashtag';
   }
+
+  var term = formInput.trim().replace(/@?#?/, '');
+  $.ajax({
+    url: '/tweets/search',
+    type: 'GET',
+    dataType: 'json',
+    data: { term, type },
+    success: function(data) {
+      console.log(data)
+    }
+  });
 }
