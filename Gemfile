@@ -40,7 +40,4 @@ end
 
 # Third-party libs
 gem 'twitter'
-gem 'omniauth'
-gem 'omniauth-twitter'
-
 gem 'font-awesome-sass'

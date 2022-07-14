@@ -16,44 +16,43 @@ module TweetSearch
       else
         url = nil
       end
-      {handle: username,
-       content: tweet.text,
-       link: 'https://twitter.com'+tweet.url.path,
-       url: url}
+      {
+        handle: username,
+        content: tweet.text,
+        link: "https://twitter.com#{tweet.url.path}",
+        url: url,
+      }
     end
     return results
   end
 
   def self.keywords(keywords)
     tweet_array = self.client.search(keywords, lang: 'en').attrs[:statuses]
-    results = tweet_array.map do |tweet|
-      {handle: tweet[:user][:screen_name],
-       content: tweet[:text],
-       link: tweet[:id]
+    tweet_array.map do |tweet|
+      {
+        handle: tweet[:user][:screen_name],
+        content: tweet[:text],
+        link: tweet[:id],
       }
     end
-    return results
   end
 
   def self.hashtag(hashtag)
     tweet_array = self.client.search("#{hashtag} -rt", lang: 'en').attrs[:statuses]
-    results = tweet_array.map do |tweet|
-      {handle: tweet[:user][:screen_name],
-       content: tweet[:text],
-       link: tweet[:id]
+    tweet_array.map do |tweet|
+      {
+        handle: tweet[:user][:screen_name],
+        content: tweet[:text],
+        link: tweet[:id],
       }
     end
-    return results
   end
 
   def self.topic(handle, keyword, num_results=NUM_RESULTS)
-    results = self.client
+    self.client
       .search("#{keyword} from:#{handle}", result_type: 'popular')
       .take(num_results)
-      .collect do |tweet|
-        "@#{tweet.user.screen_name}: #{tweet.text}"
-      end
-    return results
+      .collect { |tweet| "@#{tweet.user.screen_name}: #{tweet.text}" }
   end
 
   def get_following(username)
@@ -64,12 +63,9 @@ module TweetSearch
 
 end
 
-
-
 #Twitter::Tweet
 #tweet.media
 #tweet.id
 #tweet.user_mentions[index].screen_name
 #tweet.hashtags[index].text
 #link: tweet.urls[index].expanded_url.to_str
-

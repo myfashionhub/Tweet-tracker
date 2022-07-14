@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/search/:handle/:keyword' => 'tweets#search_topic'
   get '/search_hashtag/:hashtag' => 'tweets#search_hashtag'
 
+  get '/auth/twitter'          => 'sessions#new'
   get '/auth/twitter/callback' => 'sessions#create'
   get '/logout'                => 'sessions#destroy'
 
