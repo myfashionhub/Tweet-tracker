@@ -19,56 +19,36 @@ module TweetSearch
     end
   end
 
-  def self.client
-    @client ||= Twitter::REST::Client.new do |config|
-      # config.consumer_key = ENV['ST_TWITTER_KEY']
-      # config.consumer_secret = ENV['ST_TWITTER_SECRET']
-      config.bearer_token = self.token
-    end
-  end
-
-  def self.username(username, num_results=NUM_RESULTS)
-    uri = URI('https://api.twitter.com/1.1/statuses/user_timeline.json')
+  def self.search_twitter_api(url, term, query_string)
+    uri = URI(url)
     https = Net::HTTP.new(uri.host, uri.port)
     https.use_ssl = true
 
-    request = Net::HTTP::Get.new(uri.path.concat("?screen_name=#{username}&count=#{num_results}"))
+    request = Net::HTTP::Get.new(uri.path.concat(query_string))
     request['Authorization'] = "Bearer #{self.token}"
     request['Accept'] = 'application/json'
     request['ContentType'] = 'application/json'
 
     resp = https.request(request)
-    tweet_array = JSON.parse(resp.body)
-
-    tweet_array.map do |tweet|
-      {
-        handle: username,
-        content: tweet['text'],
-        link: "https://twitter.com/#{username}/status/#{tweet['id']}",
-      }
-    end
+    JSON.parse(resp.body)
   end
 
-  def self.keywords(keywords)
-    tweet_array = self.client.search(keywords, lang: 'en').attrs[:statuses]
-    tweet_array.map do |tweet|
-      {
-        handle: tweet[:user][:screen_name],
-        content: tweet[:text],
-        link: tweet[:id],
-      }
-    end
+  def self.username(username, num_results=NUM_RESULTS)
+    results = self.search_twitter_api(
+      'https://api.twitter.com/1.1/statuses/user_timeline.json',
+      username,
+      "?screen_name=#{username}&count=#{num_results}"
+    )
+
+    results.map { |tweet| self.build_tweet_result(username, tweet) }
   end
 
-  def self.hashtag(hashtag)
-    tweet_array = self.client.search("#{hashtag} -rt", lang: 'en').attrs[:statuses]
-    tweet_array.map do |tweet|
-      {
-        handle: tweet[:user][:screen_name],
-        content: tweet[:text],
-        link: tweet[:id],
-      }
-    end
+  def self.keywords(keyword, num_results=NUM_RESULTS)
+    url = 'https://api.twitter.com/1.1/search/tweets.json'
+    query_string = "?q=#{keyword}&lang=en&count=#{num_results}"
+    result = self.search_twitter_api(url, keyword, query_string)
+
+    result['statuses'].map { |tweet| self.build_tweet_result(tweet['user']['screen_name'], tweet) }
   end
 
   def self.topic(handle, keyword, num_results=NUM_RESULTS)
@@ -78,23 +58,13 @@ module TweetSearch
       .collect { |tweet| "@#{tweet.user.screen_name}: #{tweet.text}" }
   end
 
-  def get_following(username)
-    following = client.friends(username)
-    following.first.screen_name
-    following.to_a[index].screen_name
+  def self.build_tweet_result(username, tweet)
+    {
+      handle: username,
+      content: tweet['text'],
+      link: "https://twitter.com/#{username}/status/#{tweet['id']}",
+      related_urls: tweet['entities']['urls'],
+    }
   end
 
 end
-
-#Twitter::Tweet
-#tweet.media
-#tweet.id
-#tweet.user_mentions[index].screen_name
-#tweet.hashtags[index].text
-#link: tweet.urls[index].expanded_url.to_str
-
-=begin
-
-
-=end
-
