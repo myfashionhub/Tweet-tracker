@@ -10,14 +10,32 @@ function doSearch(e) {
     type = 'hashtag';
   }
 
-  var term = formInput.trim().replace(/@?#?/, '');
+  var term = formInput.trim().replace(/@?/, '');
   $.ajax({
-    url: '/tweets/search',
+    url: '/search',
     type: 'GET',
     dataType: 'json',
     data: { term, type },
     success: function(data) {
-      console.log(data)
+      renderTweets(data);
     }
   });
+}
+
+function renderTweets(allTweets) {
+  this.init = () => {
+    $('.search-results').empty();
+
+    if (!allTweets.length) {
+      $('.search-results').html('No tweet found.');
+      return;
+    }
+
+    allTweets.forEach((tweetData) => {
+      const tweetView = TweetView(tweetData);
+      $('.search-results').append(tweetView.render());
+    });
+  };
+
+  this.init();
 }

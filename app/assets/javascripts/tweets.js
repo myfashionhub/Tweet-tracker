@@ -1,20 +1,22 @@
-function Tweet(tweetJson){
-  this.handle  = tweetJson.handle;
-  this.content = tweetJson.content;
-  this.url     = tweetJson.url;
-  this.id      = tweetJson.id;
-}
-
-function TweetView(model){
+window.TweetView = (model) => {
   this.model = model;
   this.el    = undefined;
-}
 
-TweetView.prototype.render = function(){
-  var newLi = $('<li>').html(this.model.handle+': '+this.model.content)
-  var link = $('<a>').attr('href', this.model.url).html(this.model.url)
-  newLi.append(link);
-  this.el = newLi;
+  this.render = () => {
+    const newLi = $('<li>');
+    const user = $('<a>')
+      .attr('href', `http://twitter.com/${this.model.handle}`)
+      .attr('target', '_blank')
+      .html(`@${this.model.handle}`);
+    const separator = $('<span>').html(': ');
+    const tweet = $('<a>').attr('href', this.model.link).attr('target', '_blank');
+    tweet.html(this.model.content);
+
+    newLi.append(user).append(separator).append(tweet);
+    this.el = newLi;
+    return newLi;
+  }
+
   return this;
 }
 
