@@ -6,8 +6,6 @@ function doSearch(e) {
   let type;
   if (formInput.indexOf('@') > -1) {
     type = 'username';
-  } else if (formInput.indexOf('#') > -1) {
-    type = 'hashtag';
   }
 
   var term = formInput.trim().replace(/@?/, '');
@@ -15,7 +13,7 @@ function doSearch(e) {
     url: '/search',
     type: 'GET',
     dataType: 'json',
-    data: { term, type },
+    data: { term, type, count: 10 },
     success: function(data) {
       renderTweets(data);
     }
